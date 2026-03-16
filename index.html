@@ -22,7 +22,6 @@
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
 body { font-family: 'Orbitron', sans-serif; background: var(--bg-dark); color: var(--text-main); overflow: hidden; height: 100vh; }
 
-/* UPGRADED SVGS */
 svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; transition: 0.3s; }
 
 /* WATERMARK */
@@ -159,6 +158,9 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
 .rgb-text { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--text-main); font-weight: bold; letter-spacing: 1px; }
 .rgb-text span { color: var(--primary); text-shadow: 0 0 5px var(--primary-glow); }
 
+.panic-btn { width: 100%; padding: 12px; background: rgba(255, 26, 26, 0.1); border: 1px solid #ff1a1a; color: #ff1a1a; border-radius: 10px; font-weight: 800; font-family: 'Orbitron', sans-serif; cursor: pointer; margin-top: 15px; transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; }
+.panic-btn:active { background: #ff1a1a; color: white; transform: scale(0.95); box-shadow: 0 0 15px rgba(255, 26, 26, 0.5); }
+
 /* TERMINAL & TOASTS */
 .terminal { background: rgba(5,5,5,0.8); border-top: 1px solid var(--card-border); padding: 12px 20px; height: 85px; overflow-y: auto; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--console-green); scrollbar-width: none; box-shadow: inset 0 10px 20px rgba(0,0,0,0.5); }
 .terminal p { margin: 3px 0; text-shadow: 0 0 4px rgba(0,255,65,0.5); opacity: 0.8; letter-spacing: 0.5px; }
@@ -289,6 +291,7 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
                         <div class="rgb-text">HEX: <span id="rgb-display">#ff1a1a</span></div>
                         <input type="color" id="native-color" value="#ff1a1a" oninput="applyCustomRGB(this.value)">
                     </div>
+                    <button class="panic-btn" onclick="panicMode(); playUIBeep();">PANIC / DISABLE ALL</button>
                 </div>
             </div>
         </div>
@@ -366,6 +369,11 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
                     showToast(`[>] ${e.target.dataset.name} ${stat}`);
                     logConsole(`[>] ${e.target.dataset.name} -> ${stat.toUpperCase()}`);
                 }
+                
+                // NATIVE ANDROID BRIDGE CONNECTION
+                if (window.NentoxNative) {
+                    window.NentoxNative.toggleCheat(e.target.id, e.target.checked);
+                }
             });
         });
 
@@ -421,6 +429,20 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
         if(notify) { showToast(`[>] Theme Updated`); logConsole(`[+] Master Color Injected: ${hex.toUpperCase()}`); }
     }
 
+    function panicMode() {
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            cb.checked = false;
+            localStorage.setItem('nentox_' + cb.id, false);
+        });
+        showToast("PANIC MODE: All cheats disabled");
+        logConsole("[!] SYSTEM PANIC INITIATED");
+        
+        // NATIVE ANDROID BRIDGE PANIC
+        if (window.NentoxNative) {
+            window.NentoxNative.triggerPanic();
+        }
+    }
+
     function initRadarBlips() {
         const radar = document.getElementById('radar-widget');
         setInterval(() => {
@@ -447,7 +469,6 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
     setupUniversalDraggable(document.getElementById('radar-widget'), document.getElementById('radar-widget'));
     setupUniversalDraggable(panel, panelHeader);
     
-    // Custom logic for the main button so it opens on click but moves on drag
     let isBtnDragging = false, btnMoved = false, btnStartX, btnStartY, btnInitialLeft, btnInitialTop;
     
     function startBtnDrag(e) {
@@ -488,10 +509,8 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
     document.addEventListener('mouseup', endBtnDrag);
     document.addEventListener('touchend', endBtnDrag);
 
-    // Generic Draggable Function
     function setupUniversalDraggable(element, handle) {
         let isDragging = false, startX, startY, initialLeft, initialTop;
-        
         function startDrag(e) {
             if (e.target.closest('.close-btn')) return;
             isDragging = true;
@@ -501,7 +520,6 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
             initialTop = parseInt(element.style.top || element.offsetTop);
             element.style.transition = 'none';
         }
-        
         function moveDrag(e) {
             if (!isDragging) return;
             e.preventDefault();
@@ -510,12 +528,10 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
             element.style.left = `${initialLeft + (currentX - startX)}px`;
             element.style.top = `${initialTop + (currentY - startY)}px`;
         }
-        
         function endDrag() {
             if (isDragging && element === panel) element.style.transition = 'all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)';
             isDragging = false;
         }
-
         handle.addEventListener('mousedown', startDrag);
         handle.addEventListener('touchstart', startDrag, {passive: false});
         document.addEventListener('mousemove', moveDrag);
