@@ -20,7 +20,7 @@
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
-body { font-family: 'Orbitron', sans-serif; background: var(--bg-dark); color: var(--text-main); overflow: hidden; height: 100vh; }
+body { font-family: 'Orbitron', sans-serif; background: transparent; color: var(--text-main); overflow: hidden; height: 100vh; }
 
 svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; transition: 0.3s; }
 
@@ -69,6 +69,8 @@ svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; stroke-l
 .ch-cross { width: 20px; height: 20px; position: relative; }
 .ch-cross::before, .ch-cross::after { content: ''; position: absolute; background: currentColor; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 5px rgba(0,0,0,0.5); }
 .ch-cross::before { width: 100%; height: 2px; } .ch-cross::after { width: 2px; height: 100%; }
+.ch-dot { width: 6px; height: 6px; background: currentColor; border-radius: 50%; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
+.ch-circle { width: 24px; height: 24px; border: 2px solid currentColor; border-radius: 50%; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
 
 /* MENU BUTTON */
 .menu-btn {
@@ -151,6 +153,10 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px
 input[type=range]::-webkit-slider-thumb:active { transform: scale(1.2); cursor: grabbing; }
 input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: rgba(255,255,255,0.08); border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
 
+.profiles { display: flex; gap: 10px; margin-bottom: 15px; }
+.prof-btn { flex: 1; padding: 10px 0; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; color: var(--text-main); font-size: 11px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
+.prof-btn:active { transform: scale(0.95); background: var(--primary); color: white; border-color: var(--primary); }
+
 .color-picker-wrap { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 10px; border: 1px solid var(--card-border); }
 input[type=color] { -webkit-appearance: none; width: 35px; height: 35px; border: none; border-radius: 8px; background: none; cursor: pointer; padding: 0; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
 input[type=color]::-webkit-color-swatch-wrapper { padding: 0; }
@@ -158,8 +164,11 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
 .rgb-text { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--text-main); font-weight: bold; letter-spacing: 1px; }
 .rgb-text span { color: var(--primary); text-shadow: 0 0 5px var(--primary-glow); }
 
-.panic-btn { width: 100%; padding: 12px; background: rgba(255, 26, 26, 0.1); border: 1px solid #ff1a1a; color: #ff1a1a; border-radius: 10px; font-weight: 800; font-family: 'Orbitron', sans-serif; cursor: pointer; margin-top: 15px; transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; }
-.panic-btn:active { background: #ff1a1a; color: white; transform: scale(0.95); box-shadow: 0 0 15px rgba(255, 26, 26, 0.5); }
+.action-btn { width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 10px; font-weight: 800; font-family: 'Orbitron', sans-serif; cursor: pointer; margin-top: 10px; transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; }
+.action-btn:active { background: rgba(255, 255, 255, 0.1); transform: scale(0.95); }
+
+.panic-btn { background: rgba(255, 26, 26, 0.1); border: 1px solid #ff1a1a; color: #ff1a1a; margin-top: 15px; }
+.panic-btn:active { background: #ff1a1a; color: white; box-shadow: 0 0 15px rgba(255, 26, 26, 0.5); }
 
 /* TERMINAL & TOASTS */
 .terminal { background: rgba(5,5,5,0.8); border-top: 1px solid var(--card-border); padding: 12px 20px; height: 85px; overflow-y: auto; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--console-green); scrollbar-width: none; box-shadow: inset 0 10px 20px rgba(0,0,0,0.5); }
@@ -173,7 +182,6 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
 <body>
 
 <div id="watermark">NENTOX VIP | <span>Super Star</span> | FPS: <span id="wm-fps">60</span></div>
-<div class="bg-anim"></div>
 
 <div id="loader">
     <div class="spinner"></div>
@@ -254,13 +262,33 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
                         <span class="opt-label">Player ESP <div class="tooltip-wrap">?<span class="tooltip-text">Draws bounding boxes around entities</span></div></span>
                         <label class="switch"><input type="checkbox" id="cb_espBox" data-name="Player ESP"><span class="slider"></span></label>
                     </div>
-                    <div class="option">
-                        <span class="opt-label">Draw Crosshair <div class="tooltip-wrap">?<span class="tooltip-text">Renders a static crosshair on screen center</span></div></span>
-                        <label class="switch"><input type="checkbox" id="cb_crosshairOn" onchange="toggleCrosshair(this)"><span class="slider"></span></label>
+                    <div class="slider-container">
+                        <div class="slider-header"><span>Max Distance</span><span class="val-display" id="dist-val">400m</span></div>
+                        <input type="range" id="range_dist" min="50" max="1000" step="50" value="400" oninput="updateSlider('range_dist', 'dist-val', 'm')">
                     </div>
                     <div class="option">
                         <span class="opt-label">Show Watermark <div class="tooltip-wrap">?<span class="tooltip-text">Displays top screen info overlay</span></div></span>
                         <label class="switch"><input type="checkbox" id="cb_watermark" onchange="toggleWatermark(this)" checked><span class="slider"></span></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="accordion">
+                <div class="acc-header" onclick="toggleAcc(this); playUIBeep();">Custom Crosshair <svg class="acc-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+                <div class="acc-body">
+                    <div class="option">
+                        <span class="opt-label">Enable Crosshair <div class="tooltip-wrap">?<span class="tooltip-text">Renders static center crosshair</span></div></span>
+                        <label class="switch"><input type="checkbox" id="cb_crosshairOn" onchange="toggleCrosshair(this)"><span class="slider"></span></label>
+                    </div>
+                    <div style="font-size:12px; margin: 15px 0 5px; color:var(--text-muted);">Shape Select</div>
+                    <div class="profiles">
+                        <button class="prof-btn" onclick="setCrosshairShape('ch-cross')">Cross</button>
+                        <button class="prof-btn" onclick="setCrosshairShape('ch-dot')">Dot</button>
+                        <button class="prof-btn" onclick="setCrosshairShape('ch-circle')">Circle</button>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-header"><span>Scale Size</span><span class="val-display" id="ch-size-val">1.0x</span></div>
+                        <input type="range" id="range_chSize" min="0.5" max="2.5" step="0.1" value="1" oninput="updateCrosshairSize()">
                     </div>
                 </div>
             </div>
@@ -291,7 +319,14 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
                         <div class="rgb-text">HEX: <span id="rgb-display">#ff1a1a</span></div>
                         <input type="color" id="native-color" value="#ff1a1a" oninput="applyCustomRGB(this.value)">
                     </div>
-                    <button class="panic-btn" onclick="panicMode(); playUIBeep();">PANIC / DISABLE ALL</button>
+                </div>
+            </div>
+            
+            <div class="accordion">
+                <div class="acc-header" onclick="toggleAcc(this); playUIBeep();">System Controls <svg class="acc-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+                <div class="acc-body">
+                    <button class="action-btn" onclick="exportConfig()">EXPORT CONFIG (.JSON)</button>
+                    <button class="action-btn panic-btn" onclick="panicMode(); playUIBeep();">PANIC / DISABLE ALL</button>
                 </div>
             </div>
         </div>
@@ -339,7 +374,11 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
                 logConsole("[+] Booting VertexCreative Systems...");
                 setTimeout(() => logConsole("[+] Bypassing Security via WebLooM Protocol..."), 400);
                 setTimeout(() => logConsole("[+] NyX Dev Memory Injector Active."), 800);
-                setTimeout(() => logConsole("[+] Welcome to God Tier, Super Star."), 1200);
+                setTimeout(() => logConsole("[+] Welcome back, Zephyr."), 1200);
+                
+                // Fire the JSON Loader after boot
+                setTimeout(() => loadConfigFromJSON(), 1600);
+
             }, 500);
         }, 2000);
 
@@ -348,19 +387,7 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
         panel.style.left = `${(window.innerWidth / 2) - (panelWidth / 2)}px`;
         panel.style.top = `${(window.innerHeight / 2) - (panelHeight / 2)}px`;
 
-        if (localStorage.getItem('nentox_color')) {
-            const c = localStorage.getItem('nentox_color');
-            applyCustomRGB(c, false);
-            document.getElementById('native-color').value = c;
-        }
-
         document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-            if (cb.id === 'cb_watermark') return; 
-            if (localStorage.getItem('nentox_' + cb.id) === 'true') {
-                cb.checked = true;
-                if(cb.id === 'cb_crosshairOn') toggleCrosshair(cb, false);
-                if(cb.id === 'cb_radarOn') toggleRadar(cb, false);
-            }
             cb.addEventListener('change', (e) => {
                 playUIBeep();
                 localStorage.setItem('nentox_' + e.target.id, e.target.checked);
@@ -369,15 +396,13 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
                     showToast(`[>] ${e.target.dataset.name} ${stat}`);
                     logConsole(`[>] ${e.target.dataset.name} -> ${stat.toUpperCase()}`);
                 }
-                
-                // NATIVE ANDROID BRIDGE CONNECTION
+                // --- ANDROID JAVA BRIDGE CONNECTION ---
                 if (window.NentoxNative) {
                     window.NentoxNative.toggleCheat(e.target.id, e.target.checked);
                 }
             });
         });
 
-        loadSlider('range_fov', 'fov-val', '°');
         startFPSCounter();
         initRadarBlips();
     };
@@ -388,35 +413,128 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
         termLog.appendChild(p); termLog.scrollTop = termLog.scrollHeight;
     }
 
+    // --- ADVANCED JSON CONFIG LOADER ---
+    function loadConfigFromJSON() {
+        fetch('config.json')
+            .then(response => {
+                if (!response.ok) throw new Error("No local config found.");
+                return response.json();
+            })
+            .then(cfg => {
+                logConsole(`[+] Loading Config: ${cfg.metadata.configName}`);
+                
+                if (cfg.ui_settings) {
+                    if (cfg.ui_settings.themeHex) {
+                        applyCustomRGB(cfg.ui_settings.themeHex, false);
+                        document.getElementById('native-color').value = cfg.ui_settings.themeHex;
+                    }
+                    setToggle('cb_watermark', cfg.ui_settings.showWatermark);
+                    if (cfg.ui_settings.customCrosshair) {
+                        setToggle('cb_crosshairOn', cfg.ui_settings.customCrosshair.enabled);
+                        setCrosshairShape(cfg.ui_settings.customCrosshair.shape, false);
+                        setSlider('range_chSize', cfg.ui_settings.customCrosshair.scale, 'ch-size-val', 'x');
+                        updateCrosshairSize();
+                    }
+                }
+                if (cfg.combat) {
+                    setToggle('cb_aimAssist', cfg.combat.aimbot.enabled);
+                    setToggle('cb_headAim', cfg.combat.aimbot.headPriority);
+                    setSlider('range_fov', cfg.combat.aimbot.fovRadius, 'fov-val', '°');
+                }
+                if (cfg.visuals) {
+                    setToggle('cb_espBox', cfg.visuals.esp.playerBox);
+                    setSlider('range_dist', cfg.visuals.esp.maxRenderDistance, 'dist-val', 'm');
+                    setToggle('cb_radarOn', cfg.visuals.radar.enabled);
+                }
+                showToast(`[>] Config Loaded Successfully`);
+            })
+            .catch(error => {
+                logConsole("[-] No JSON config detected. Falling back to LocalStorage saves.");
+                fallbackToLocalSaves();
+            });
+    }
+
+    function fallbackToLocalSaves() {
+        if (localStorage.getItem('nentox_color')) applyCustomRGB(localStorage.getItem('nentox_color'), false);
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            if (cb.id === 'cb_watermark') return; 
+            if (localStorage.getItem('nentox_' + cb.id) === 'true') {
+                cb.checked = true;
+                if(cb.id === 'cb_crosshairOn') toggleCrosshair(cb, false);
+                if(cb.id === 'cb_radarOn') toggleRadar(cb, false);
+            }
+        });
+        loadSlider('range_fov', 'fov-val', '°');
+        loadSlider('range_dist', 'dist-val', 'm');
+        if(localStorage.getItem('nentox_chShape')) setCrosshairShape(localStorage.getItem('nentox_chShape'), false);
+        if(localStorage.getItem('nentox_range_chSize')) {
+            document.getElementById('range_chSize').value = localStorage.getItem('nentox_range_chSize');
+            updateCrosshairSize();
+        }
+    }
+
+    function exportConfig() {
+        playUIBeep();
+        const config = {
+            metadata: {
+                configName: "Zephyr Custom Sync",
+                author: "Zephyr",
+                version: "3.0.0",
+                buildYear: 2026,
+                engine: "VertexCreative Core"
+            },
+            ui_settings: {
+                themeHex: document.getElementById('native-color').value,
+                showWatermark: document.getElementById('cb_watermark').checked,
+                customCrosshair: {
+                    enabled: document.getElementById('cb_crosshairOn').checked,
+                    shape: localStorage.getItem('nentox_chShape') || 'ch-cross',
+                    scale: document.getElementById('range_chSize').value
+                }
+            },
+            combat: {
+                aimbot: {
+                    enabled: document.getElementById('cb_aimAssist').checked,
+                    headPriority: document.getElementById('cb_headAim').checked,
+                    fovRadius: document.getElementById('range_fov').value
+                }
+            },
+            visuals: {
+                esp: {
+                    playerBox: document.getElementById('cb_espBox').checked,
+                    maxRenderDistance: document.getElementById('range_dist').value
+                },
+                radar: {
+                    enabled: document.getElementById('cb_radarOn').checked
+                }
+            }
+        };
+        const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config, null, 2));
+        const dlNode = document.createElement('a');
+        dlNode.setAttribute("href", dataStr); dlNode.setAttribute("download", "zephyr_config.json");
+        document.body.appendChild(dlNode); dlNode.click(); dlNode.remove();
+        showToast("[>] Config Exported");
+        logConsole("[+] zephyr_config.json generated.");
+    }
+
     // --- UI HELPERS ---
+    function setToggle(id, state) { const cb = document.getElementById(id); if (cb && cb.checked !== state) { cb.checked = state; cb.dispatchEvent(new Event('change')); } }
+    function setSlider(id, value, displayId, suffix) { const slider = document.getElementById(id); if (slider) { slider.value = value; document.getElementById(displayId).innerText = value + suffix; localStorage.setItem('nentox_' + id, value); } }
     function toggleAcc(element) { element.parentElement.classList.toggle('open'); }
     function showToast(message) {
         const container = document.getElementById('toast-container');
-        const toast = document.createElement('div');
-        toast.className = 'toast'; toast.innerText = message;
-        container.appendChild(toast);
-        setTimeout(() => { toast.style.opacity='0'; setTimeout(()=>toast.remove(),300); }, 2000);
+        const toast = document.createElement('div'); toast.className = 'toast'; toast.innerText = message;
+        container.appendChild(toast); setTimeout(() => { toast.style.opacity='0'; setTimeout(()=>toast.remove(),300); }, 2000);
     }
-    function updateSlider(inputId, displayId, suffix) {
-        const val = document.getElementById(inputId).value;
-        document.getElementById(displayId).innerText = val + suffix;
-        localStorage.setItem('nentox_' + inputId, val);
-    }
-    function loadSlider(inputId, displayId, suffix) {
-        const saved = localStorage.getItem('nentox_' + inputId);
-        if(saved) { document.getElementById(inputId).value = saved; document.getElementById(displayId).innerText = saved + suffix; }
-    }
+    function updateSlider(inputId, displayId, suffix) { const val = document.getElementById(inputId).value; document.getElementById(displayId).innerText = val + suffix; localStorage.setItem('nentox_' + inputId, val); }
+    function loadSlider(inputId, displayId, suffix) { const saved = localStorage.getItem('nentox_' + inputId); if(saved) { document.getElementById(inputId).value = saved; document.getElementById(displayId).innerText = saved + suffix; } }
 
     // --- ADVANCED FEATURES LOGIC ---
-    function toggleCrosshair(el, log=true) {
-        document.getElementById('crosshair-overlay').style.display = el.checked ? 'block' : 'none';
-        if(log) logConsole(el.checked ? "[+] Custom Overlay Active" : "[-] Overlay Removed");
-    }
+    function toggleCrosshair(el, log=true) { document.getElementById('crosshair-overlay').style.display = el.checked ? 'block' : 'none'; if(log) logConsole(el.checked ? "[+] Custom Overlay Active" : "[-] Overlay Removed"); }
+    function setCrosshairShape(shapeClass, log=true) { document.getElementById('ch-shape').className = shapeClass; localStorage.setItem('nentox_chShape', shapeClass); if(log) { showToast("[>] Crosshair Updated"); logConsole(`[>] Overlay Shape -> ${shapeClass.replace('ch-','')}`); } }
+    function updateCrosshairSize() { const val = document.getElementById('range_chSize').value; document.getElementById('ch-size-val').innerText = val + 'x'; document.getElementById('ch-shape').style.transform = `scale(${val})`; localStorage.setItem('nentox_range_chSize', val); }
     function toggleWatermark(el) { document.getElementById('watermark').style.display = el.checked ? 'block' : 'none'; }
-    function toggleRadar(el, log=true) {
-        document.getElementById('radar-widget').style.display = el.checked ? 'block' : 'none';
-        if(log) { showToast(el.checked ? "[>] Radar HUD Active" : "[>] Radar HUD Hidden"); logConsole(el.checked ? "[+] Minimap Hooks Injected" : "[-] Minimap Hooks Removed"); }
-    }
+    function toggleRadar(el, log=true) { document.getElementById('radar-widget').style.display = el.checked ? 'block' : 'none'; if(log) { showToast(el.checked ? "[>] Radar HUD Active" : "[>] Radar HUD Hidden"); logConsole(el.checked ? "[+] Minimap Hooks Injected" : "[-] Minimap Hooks Removed"); } }
 
     function applyCustomRGB(hex, notify=true) {
         document.getElementById('rgb-display').innerText = hex.toUpperCase();
@@ -430,17 +548,9 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
     }
 
     function panicMode() {
-        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-            cb.checked = false;
-            localStorage.setItem('nentox_' + cb.id, false);
-        });
-        showToast("PANIC MODE: All cheats disabled");
-        logConsole("[!] SYSTEM PANIC INITIATED");
-        
-        // NATIVE ANDROID BRIDGE PANIC
-        if (window.NentoxNative) {
-            window.NentoxNative.triggerPanic();
-        }
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; localStorage.setItem('nentox_' + cb.id, false); });
+        showToast("PANIC MODE: All cheats disabled"); logConsole("[!] SYSTEM PANIC INITIATED");
+        if (window.NentoxNative) { window.NentoxNative.triggerPanic(); } // ANDROID BRIDGE
     }
 
     function initRadarBlips() {
