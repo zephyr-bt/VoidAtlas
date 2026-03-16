@@ -1,120 +1,545 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>VoidAtlas — Space Encyclopedia</title>
-  <meta name="description" content="Complete professional space encyclopedia" />
-  <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>NENTOX MENU - GOD TIER</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+<style>
+:root {
+    --primary: #ff1a1a;
+    --primary-glow: rgba(255, 26, 26, 0.7);
+    --bg-dark: #050505;
+    --panel-bg: rgba(14, 14, 18, 0.85);
+    --card-bg: rgba(255, 255, 255, 0.03);
+    --card-border: rgba(255, 255, 255, 0.05);
+    --text-main: #f5f5f5;
+    --text-muted: #8b8b93;
+    --console-green: #00ff41;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; user-select: none; }
+body { font-family: 'Orbitron', sans-serif; background: var(--bg-dark); color: var(--text-main); overflow: hidden; height: 100vh; }
+
+/* UPGRADED SVGS */
+svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; fill: none; transition: 0.3s; }
+
+/* WATERMARK */
+#watermark {
+    position: fixed; top: 12px; left: 50%; transform: translateX(-50%);
+    background: rgba(14, 14, 18, 0.8); border: 1px solid rgba(255,255,255,0.05); border-bottom: 2px solid var(--primary);
+    padding: 6px 18px; border-radius: 12px; font-size: 10px; font-weight: 800;
+    color: white; z-index: 990; letter-spacing: 1.5px; box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    display: none; pointer-events: none; backdrop-filter: blur(8px);
+}
+#watermark span { color: var(--primary); text-shadow: 0 0 8px var(--primary-glow); }
+
+/* INJECTION LOADER */
+#loader {
+    position: fixed; inset: 0; background: var(--bg-dark); z-index: 99999;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; transition: opacity 0.5s ease;
+}
+.spinner { width: 50px; height: 50px; border: 3px solid rgba(255,255,255,0.05); border-top-color: var(--primary); border-radius: 50%; animation: spin 1s cubic-bezier(0.68, -0.55, 0.265, 1.55) infinite; margin-bottom: 20px; box-shadow: 0 0 20px var(--primary-glow); }
+.loader-text { font-family: 'Share Tech Mono', monospace; color: var(--primary); font-size: 14px; letter-spacing: 3px; text-shadow: 0 0 10px var(--primary-glow); animation: pulseText 1.5s infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes pulseText { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+
+/* ANIMATED BACKGROUND */
+.bg-anim { position: fixed; inset: 0; z-index: -1; pointer-events: none; background: radial-gradient(circle at 50% 50%, var(--primary-glow) 0%, transparent 60%); opacity: 0.04; animation: breatheBg 6s infinite alternate ease-in-out; }
+@keyframes breatheBg { 0% { transform: scale(1); opacity: 0.02; } 100% { transform: scale(1.1); opacity: 0.06; } }
+
+/* 2D RADAR WIDGET */
+#radar-widget {
+    position: fixed; top: 80px; right: 20px; width: 130px; height: 130px;
+    background: rgba(14, 14, 18, 0.7); border: 2px solid rgba(255,255,255,0.05); border-radius: 50%;
+    box-shadow: 0 0 20px rgba(0,0,0,0.8), inset 0 0 15px var(--primary-glow); z-index: 995; display: none; overflow: hidden; backdrop-filter: blur(10px);
+}
+.radar-sweep { position: absolute; top: 50%; left: 50%; width: 50%; height: 50%; background: linear-gradient(45deg, var(--primary-glow) 0%, transparent 60%); transform-origin: 0% 0%; animation: sweep 2s linear infinite; }
+.radar-lines { position: absolute; inset: 0; border-radius: 50%; border: 1px solid var(--primary); opacity: 0.3; }
+.radar-lines::before, .radar-lines::after { content: ''; position: absolute; background: var(--primary); opacity: 0.3; }
+.radar-lines::before { top: 50%; left: 0; right: 0; height: 1px; }
+.radar-lines::after { left: 50%; top: 0; bottom: 0; width: 1px; }
+.radar-player { position: absolute; top: 50%; left: 50%; width: 4px; height: 4px; background: white; border-radius: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 8px white; }
+.radar-blip { position: absolute; width: 5px; height: 5px; background: #ff1a1a; border-radius: 50%; box-shadow: 0 0 10px #ff1a1a; opacity: 0; animation: blipFade 2s infinite; }
+@keyframes sweep { to { transform: rotate(360deg); } }
+@keyframes blipFade { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.2; transform: scale(1.5); } 100% { opacity: 0; } }
+
+/* CROSSHAIR */
+#crosshair-overlay { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; z-index: 990; display: none; }
+.ch-cross { width: 20px; height: 20px; position: relative; }
+.ch-cross::before, .ch-cross::after { content: ''; position: absolute; background: currentColor; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 5px rgba(0,0,0,0.5); }
+.ch-cross::before { width: 100%; height: 2px; } .ch-cross::after { width: 2px; height: 100%; }
+
+/* MENU BUTTON */
+.menu-btn {
+    position: absolute; top: 60px; left: 20px; width: 55px; height: 55px;
+    background: var(--primary); color: white; display: none; align-items: center; justify-content: center;
+    border-radius: 50%; cursor: grab; box-shadow: 0 8px 25px rgba(0,0,0,0.5), 0 0 15px var(--primary-glow);
+    z-index: 999; border: 2px solid rgba(255,255,255,0.15); transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.menu-btn:active { transform: scale(0.9); }
+.menu-btn img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; pointer-events: none; }
+
+/* PANEL */
+.panel {
+    position: absolute; width: 92%; max-width: 420px; height: 82vh;
+    background: var(--panel-bg); backdrop-filter: blur(30px); -webkit-backdrop-filter: blur(30px);
+    border: 1px solid var(--card-border); border-top: 2px solid var(--primary); border-radius: 20px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.9), 0 0 50px rgba(255,26,26,0.1);
+    display: flex; flex-direction: column; opacity: 0; pointer-events: none; transform: scale(0.95) translateY(10px);
+    transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1); z-index: 998; overflow: hidden;
+}
+.panel.active { opacity: 1; pointer-events: auto; transform: scale(1) translateY(0); }
+
+/* HEADER & TABS */
+.panel-header { display: flex; justify-content: space-between; align-items: center; padding: 18px 22px; background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, transparent 100%); cursor: grab; border-bottom: 1px solid var(--card-border); }
+.brand { display: flex; align-items: center; gap: 14px; pointer-events: none; }
+.brand img { width: 38px; height: 38px; border-radius: 10px; box-shadow: 0 0 12px var(--primary-glow); border: 1px solid rgba(255,255,255,0.1); }
+.title { font-size: 17px; font-weight: 800; letter-spacing: 1.5px; text-shadow: 0 0 10px var(--primary-glow); display: flex; flex-direction: column; }
+.stats { font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--text-muted); margin-top: 4px; letter-spacing: 0.5px; }
+.stats span { color: var(--primary); font-weight: bold; }
+.close-btn { background: rgba(255,255,255,0.03); border: 1px solid var(--card-border); width: 34px; height: 34px; border-radius: 10px; display: flex; justify-content: center; align-items: center; color: var(--text-muted); cursor: pointer; transition: 0.3s; }
+.close-btn:hover { color: var(--text-main); border-color: rgba(255,255,255,0.2); }
+.close-btn:active { transform: scale(0.9); background: var(--primary); border-color: var(--primary); color: white; }
+
+.tabs { display: flex; padding: 18px 22px 0; gap: 10px; overflow-x: auto; scrollbar-width: none; }
+.tabs::-webkit-scrollbar { display: none; }
+.tab-btn { flex: 1; min-width: 75px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 10px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; font-size: 11px; font-weight: 600; color: var(--text-muted); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
+.tab-btn svg { opacity: 0.7; }
+.tab-btn.active { background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%); border-color: var(--primary); color: var(--primary); box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.2); transform: translateY(-2px); }
+.tab-btn.active svg { opacity: 1; filter: drop-shadow(0 0 5px var(--primary-glow)); }
+
+/* CONTENT & OPTIONS */
+.content { flex: 1; padding: 22px; overflow-y: auto; scrollbar-width: none; }
+.content::-webkit-scrollbar { display: none; }
+.tab-content { display: none; animation: slideUpFade 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
+.tab-content.active { display: block; }
+@keyframes slideUpFade { from { opacity: 0; transform: translateY(15px); } to { opacity: 1; transform: translateY(0); } }
+
+.accordion { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 14px; margin-bottom: 16px; overflow: hidden; transition: 0.3s; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+.acc-header { padding: 16px 20px; font-size: 12px; font-weight: 800; color: var(--text-main); display: flex; justify-content: space-between; align-items: center; cursor: pointer; background: rgba(0,0,0,0.2); text-transform: uppercase; letter-spacing: 1.5px; transition: 0.3s; }
+.accordion.open .acc-header { color: var(--primary); border-bottom: 1px solid var(--card-border); background: rgba(0,0,0,0.4); }
+.acc-icon { transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); opacity: 0.5; }
+.accordion.open .acc-icon { transform: rotate(180deg); opacity: 1; }
+.acc-body { display: none; padding: 8px 20px 12px; }
+.accordion.open .acc-body { display: block; animation: slideUpFade 0.3s forwards; }
+
+.option { display: flex; justify-content: space-between; align-items: center; padding: 14px 0; font-size: 13px; font-weight: 600; border-bottom: 1px solid rgba(255,255,255,0.03); }
+.option:last-child { border-bottom: none; }
+.opt-label { display: flex; align-items: center; gap: 0; }
+
+/* TOOLTIPS */
+.tooltip-wrap { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 16px; height: 16px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 50%; color: var(--text-muted); font-size: 9px; cursor: help; margin-left: 8px; transition: 0.2s; font-family: 'Share Tech Mono', monospace; }
+.tooltip-text { position: absolute; bottom: 140%; left: 50%; transform: translateX(-50%) translateY(10px); background: rgba(10,10,12,0.95); backdrop-filter: blur(5px); border: 1px solid var(--primary); color: white; padding: 8px 12px; border-radius: 8px; font-size: 11px; font-family: 'Share Tech Mono', monospace; white-space: nowrap; opacity: 0; pointer-events: none; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 8px 20px rgba(0,0,0,0.8), 0 0 10px rgba(255,26,26,0.2); z-index: 100; font-weight: normal; letter-spacing: 0.5px; }
+.tooltip-text::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-width: 5px; border-style: solid; border-color: var(--primary) transparent transparent transparent; }
+.tooltip-wrap:active, .tooltip-wrap:hover { background: rgba(255,255,255,0.15); color: var(--text-main); }
+.tooltip-wrap:active .tooltip-text, .tooltip-wrap:hover .tooltip-text { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* TOGGLES, SLIDERS, COLOR PICKER */
+.switch { position: relative; width: 46px; height: 24px; cursor: pointer; }
+.switch input { opacity: 0; width: 0; height: 0; }
+.slider { position: absolute; inset: 0; background: rgba(255,255,255,0.05); border-radius: 24px; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); border: 1px solid rgba(255,255,255,0.08); box-shadow: inset 0 2px 5px rgba(0,0,0,0.5); }
+.slider:before { content: ""; position: absolute; height: 16px; width: 16px; left: 3px; bottom: 3px; background: var(--text-muted); border-radius: 50%; transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
+input:checked + .slider { background: rgba(255,255,255,0.1); border-color: var(--primary); }
+input:checked + .slider:before { transform: translateX(22px); background: var(--primary); box-shadow: 0 0 12px var(--primary-glow); }
+
+.slider-container { width: 100%; padding: 12px 0; }
+.slider-header { display: flex; justify-content: space-between; font-size: 12px; margin-bottom: 12px; color: var(--text-muted); font-weight: 600; }
+.val-display { color: var(--primary); font-family: 'Share Tech Mono', monospace; font-size: 13px; text-shadow: 0 0 5px var(--primary-glow); }
+input[type=range] { -webkit-appearance: none; width: 100%; background: transparent; }
+input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px; width: 18px; border-radius: 50%; background: var(--primary); margin-top: -7px; box-shadow: 0 0 12px var(--primary-glow), 0 2px 5px rgba(0,0,0,0.5); cursor: grab; transition: 0.2s; }
+input[type=range]::-webkit-slider-thumb:active { transform: scale(1.2); cursor: grabbing; }
+input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: rgba(255,255,255,0.08); border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
+
+.color-picker-wrap { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 10px; border: 1px solid var(--card-border); }
+input[type=color] { -webkit-appearance: none; width: 35px; height: 35px; border: none; border-radius: 8px; background: none; cursor: pointer; padding: 0; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
+input[type=color]::-webkit-color-swatch-wrapper { padding: 0; }
+input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2); border-radius: 8px; }
+.rgb-text { font-family: 'Share Tech Mono', monospace; font-size: 13px; color: var(--text-main); font-weight: bold; letter-spacing: 1px; }
+.rgb-text span { color: var(--primary); text-shadow: 0 0 5px var(--primary-glow); }
+
+/* TERMINAL & TOASTS */
+.terminal { background: rgba(5,5,5,0.8); border-top: 1px solid var(--card-border); padding: 12px 20px; height: 85px; overflow-y: auto; font-family: 'Share Tech Mono', monospace; font-size: 10px; color: var(--console-green); scrollbar-width: none; box-shadow: inset 0 10px 20px rgba(0,0,0,0.5); }
+.terminal p { margin: 3px 0; text-shadow: 0 0 4px rgba(0,255,65,0.5); opacity: 0.8; letter-spacing: 0.5px; }
+
+#toast-container { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+.toast { background: rgba(14,14,18,0.95); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.05); border-left: 4px solid var(--primary); padding: 12px 22px; border-radius: 8px; color: white; font-size: 12px; font-weight: 600; box-shadow: 0 8px 25px rgba(0,0,0,0.8), 0 0 15px rgba(255,26,26,0.15); animation: slideUpToast 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; font-family: 'Share Tech Mono', monospace; letter-spacing: 0.5px; }
+@keyframes slideUpToast { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+</style>
 </head>
 <body>
-  <div id="galaxy">
-    <div class="stars"></div>
-  </div>
 
-  <header>
-    <nav>
-      <div class="logo">VOIDATLAS</div>
-      <div class="hamburger">☰</div>
-      <div class="nav-links">
-        <a href="#history">History</a>
-        <a href="#nasa">NASA</a>
-        <a href="#isro">ISRO</a>
-        <a href="#spacex">SpaceX</a>
-        <a href="#rockets">Rockets</a>
-        <a href="#apollo">Apollo</a>
-        <a href="#planets">Planets</a>
-        <a href="#blackholes">Black Holes</a>
-        <a href="#myths">Myths</a>
-        <a href="#dyk">Facts</a>
-      </div>
-    </nav>
-  </header>
+<div id="watermark">NENTOX VIP | <span>Super Star</span> | FPS: <span id="wm-fps">60</span></div>
+<div class="bg-anim"></div>
 
-  <main>
-    <section id="history">
-      <h1>History of Space</h1>
-      <div class="card">
-        <h2>1940s–1950s</h2>
-        <p>V-2 • Sputnik • Explorer</p>
-        <h2>1960s</h2>
-        <p>Gagarin • Apollo 11 (Armstrong)</p>
-        <h2>1970s–Now</h2>
-        <p>Voyager • Hubble • ISS • JWST • Chandrayaan-3</p>
-      </div>
-    </section>
+<div id="loader">
+    <div class="spinner"></div>
+    <div class="loader-text">INJECTING ENGINE...</div>
+</div>
 
-    <section id="apollo">
-      <h2>Apollo</h2>
-      <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Apollo_Command_Service_Module_diagram.png" alt="Apollo">
-        <p>Neil Armstrong: "One small step..."</p>
-      </div>
-    </section>
+<div id="crosshair-overlay">
+    <div id="ch-shape" class="ch-cross" style="color: #ff1a1a;"></div>
+</div>
 
-    <section id="isro">
-      <h2>ISRO</h2>
-      <div class="card">
-        <p>Chandrayaan-1: Water on Moon</p>
-        <p>Mangalyaan: Mars on first try</p>
-        <p>Chandrayaan-3: South pole landing</p>
-      </div>
-    </section>
+<div id="radar-widget">
+    <div class="radar-lines"></div>
+    <div class="radar-sweep"></div>
+    <div class="radar-player"></div>
+</div>
 
-    <section id="planets">
-      <h2>Planets</h2>
-      <div class="planets-grid">
-        <div class="planet-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/3/30/Mercury_in_color_-_Prockter07-edit1.jpg" alt="Mercury">
-          <h3>Mercury</h3>
-        </div>
-        <div class="planet-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/8/85/Venus_globe.jpg" alt="Venus">
-          <h3>Venus</h3>
-        </div>
-        <div class="planet-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/02/Full_blue_marble.jpg" alt="Earth">
-          <h3>Earth</h3>
-        </div>
-        <div class="planet-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/0/02/OSIRIS_Mars_true_color.jpg" alt="Mars">
-          <h3>Mars</h3>
-        </div>
-        <div class="planet-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/2/2b/Jupiter_and_its_shrunken_Great_Red_Spot.jpg" alt="Jupiter">
-          <h3>Jupiter</h3>
-        </div>
-        <div class="planet-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/c/c7/Saturn_from_Cassini_Orbiter_%282004-10-06%29.jpg" alt="Saturn">
-          <h3>Saturn</h3>
-        </div>
-        <div class="planet-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/3/3d/Uranus_Voyager2_color_calibrated_2019.png" alt="Uranus">
-          <h3>Uranus</h3>
-        </div>
-        <div class="planet-card">
-          <img src="https://upload.wikimedia.org/wikipedia/commons/4/48/Neptune_Voyager2_color_calibrated_2018.png" alt="Neptune">
-          <h3>Neptune</h3>
-        </div>
-      </div>
-    </section>
+<div id="toast-container"></div>
 
-    <!-- Black Holes -->
-    <section id="blackholes">
-      <h2>Black Holes</h2>
-      <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/commons/4/4e/Black_hole_lensing_web.jpg" alt="Black Hole">
-        <p>Gravity traps light</p>
-      </div>
-    </section>
+<div class="menu-btn" id="drag-btn" onmousedown="playUIBeep()" ontouchstart="playUIBeep()">
+    <img src="https://cdn.discordapp.com/attachments/1459421985800065170/1482684204834619453/LOGO.png.png?ex=69b7d8c5&is=69b68745&hm=9cd85c20df6eebb5d865d689d1d86e4f45caa75c89377ce720fc488a03b43a39&" alt="Logo">
+</div>
 
-    <!-- Do You Know -->
-    <section id="dyk">
-      <h2>Do You Know?</h2>
-      <p id="dyk-text"></p>
-    </section>
-  </main>
+<div class="panel" id="panel">
 
-  <script src="script.js"></script>
+    <div class="panel-header" id="panel-header">
+        <div class="brand">
+            <img src="https://cdn.discordapp.com/attachments/1459421985800065170/1482684204834619453/LOGO.png.png?ex=69b7d8c5&is=69b68745&hm=9cd85c20df6eebb5d865d689d1d86e4f45caa75c89377ce720fc488a03b43a39&" alt="Logo">
+            <div class="title">
+                NENTOX <span style="font-size:10px; color:var(--primary); font-weight:600; letter-spacing: 2px;">GOD TIER</span>
+            </div>
+        </div>
+        <div class="close-btn" onclick="closePanel(); playUIBeep();">
+            <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </div>
+    </div>
+
+    <div class="tabs">
+        <div class="tab-btn active" onclick="openTab('aim', this); playUIBeep();">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg> AIM
+        </div>
+        <div class="tab-btn" onclick="openTab('visuals', this); playUIBeep();">
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> VIS
+        </div>
+        <div class="tab-btn" onclick="openTab('radar', this); playUIBeep();">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 10 10"></path><circle cx="12" cy="12" r="2"></circle></svg> RADAR
+        </div>
+        <div class="tab-btn" onclick="openTab('cfg', this); playUIBeep();">
+            <svg viewBox="0 0 24 24"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg> CFG
+        </div>
+    </div>
+
+    <div class="content">
+        <div id="aim" class="tab-content active">
+            <div class="accordion open">
+                <div class="acc-header" onclick="toggleAcc(this); playUIBeep();">Combat Assist <svg class="acc-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+                <div class="acc-body">
+                    <div class="option">
+                        <span class="opt-label">Aim Assist <div class="tooltip-wrap">?<span class="tooltip-text">Magnetizes crosshair to closest enemy</span></div></span>
+                        <label class="switch"><input type="checkbox" id="cb_aimAssist" data-name="Aim Assist"><span class="slider"></span></label>
+                    </div>
+                    <div class="option">
+                        <span class="opt-label">Head Priority <div class="tooltip-wrap">?<span class="tooltip-text">Forces aimbot lock to head bone hitboxes</span></div></span>
+                        <label class="switch"><input type="checkbox" id="cb_headAim" data-name="Head Priority"><span class="slider"></span></label>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-header"><span>FOV Radius</span><span class="val-display" id="fov-val">90°</span></div>
+                        <input type="range" id="range_fov" min="10" max="360" value="90" oninput="updateSlider('range_fov', 'fov-val', '°')">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="visuals" class="tab-content">
+            <div class="accordion open">
+                <div class="acc-header" onclick="toggleAcc(this); playUIBeep();">Screen Overlays <svg class="acc-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+                <div class="acc-body">
+                    <div class="option">
+                        <span class="opt-label">Player ESP <div class="tooltip-wrap">?<span class="tooltip-text">Draws bounding boxes around entities</span></div></span>
+                        <label class="switch"><input type="checkbox" id="cb_espBox" data-name="Player ESP"><span class="slider"></span></label>
+                    </div>
+                    <div class="option">
+                        <span class="opt-label">Draw Crosshair <div class="tooltip-wrap">?<span class="tooltip-text">Renders a static crosshair on screen center</span></div></span>
+                        <label class="switch"><input type="checkbox" id="cb_crosshairOn" onchange="toggleCrosshair(this)"><span class="slider"></span></label>
+                    </div>
+                    <div class="option">
+                        <span class="opt-label">Show Watermark <div class="tooltip-wrap">?<span class="tooltip-text">Displays top screen info overlay</span></div></span>
+                        <label class="switch"><input type="checkbox" id="cb_watermark" onchange="toggleWatermark(this)" checked><span class="slider"></span></label>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="radar" class="tab-content">
+            <div class="accordion open">
+                <div class="acc-header" onclick="toggleAcc(this); playUIBeep();">2D Minimap <svg class="acc-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+                <div class="acc-body">
+                    <div class="option">
+                        <span class="opt-label">Enable Radar HUD <div class="tooltip-wrap">?<span class="tooltip-text">Spawns draggable radar widget</span></div></span>
+                        <label class="switch"><input type="checkbox" id="cb_radarOn" onchange="toggleRadar(this)"><span class="slider"></span></label>
+                    </div>
+                    <div style="font-size:11px; color:var(--text-muted); margin-top:10px; line-height:1.5;">
+                        * Enemy dots sync dynamically.<br>
+                        * Widget can be dragged anywhere.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="cfg" class="tab-content">
+            <div class="accordion open">
+                <div class="acc-header" onclick="toggleAcc(this); playUIBeep();">Theme Customizer <svg class="acc-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+                <div class="acc-body">
+                    <div style="font-size:12px; color:var(--text-muted); margin-bottom:5px;">Master Menu Hex Color</div>
+                    <div class="color-picker-wrap">
+                        <div class="rgb-text">HEX: <span id="rgb-display">#ff1a1a</span></div>
+                        <input type="color" id="native-color" value="#ff1a1a" oninput="applyCustomRGB(this.value)">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="terminal" id="term-log"></div>
+
+</div>
+
+<script>
+    const panel = document.getElementById('panel');
+    const dragBtn = document.getElementById('drag-btn');
+    const panelHeader = document.getElementById('panel-header');
+    const termLog = document.getElementById('term-log');
+
+    // --- ZERO-DEPENDENCY AUDIO SYNTH ---
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    let audioCtx;
+    function playUIBeep() {
+        try {
+            if(!audioCtx) audioCtx = new AudioContext();
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            const osc = audioCtx.createOscillator();
+            const gain = audioCtx.createGain();
+            osc.connect(gain); gain.connect(audioCtx.destination);
+            osc.type = 'sine';
+            osc.frequency.setValueAtTime(1200, audioCtx.currentTime);
+            osc.frequency.exponentialRampToValueAtTime(800, audioCtx.currentTime + 0.05);
+            gain.gain.setValueAtTime(0.05, audioCtx.currentTime);
+            gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.05);
+            osc.start(); osc.stop(audioCtx.currentTime + 0.05);
+        } catch(e) {}
+    }
+
+    // --- INITIALIZATION ---
+    window.onload = () => {
+        document.getElementById('watermark').style.display = 'block';
+
+        setTimeout(() => {
+            document.getElementById('loader').style.opacity = '0';
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+                dragBtn.style.display = 'flex';
+                
+                logConsole("[+] Booting VertexCreative Systems...");
+                setTimeout(() => logConsole("[+] Bypassing Security via WebLooM Protocol..."), 400);
+                setTimeout(() => logConsole("[+] NyX Dev Memory Injector Active."), 800);
+                setTimeout(() => logConsole("[+] Welcome to God Tier, Super Star."), 1200);
+            }, 500);
+        }, 2000);
+
+        const panelWidth = Math.min(window.innerWidth * 0.92, 420);
+        const panelHeight = window.innerHeight * 0.82;
+        panel.style.left = `${(window.innerWidth / 2) - (panelWidth / 2)}px`;
+        panel.style.top = `${(window.innerHeight / 2) - (panelHeight / 2)}px`;
+
+        if (localStorage.getItem('nentox_color')) {
+            const c = localStorage.getItem('nentox_color');
+            applyCustomRGB(c, false);
+            document.getElementById('native-color').value = c;
+        }
+
+        document.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+            if (cb.id === 'cb_watermark') return; 
+            if (localStorage.getItem('nentox_' + cb.id) === 'true') {
+                cb.checked = true;
+                if(cb.id === 'cb_crosshairOn') toggleCrosshair(cb, false);
+                if(cb.id === 'cb_radarOn') toggleRadar(cb, false);
+            }
+            cb.addEventListener('change', (e) => {
+                playUIBeep();
+                localStorage.setItem('nentox_' + e.target.id, e.target.checked);
+                if(e.target.dataset.name) {
+                    const stat = e.target.checked ? "Enabled" : "Disabled";
+                    showToast(`[>] ${e.target.dataset.name} ${stat}`);
+                    logConsole(`[>] ${e.target.dataset.name} -> ${stat.toUpperCase()}`);
+                }
+            });
+        });
+
+        loadSlider('range_fov', 'fov-val', '°');
+        startFPSCounter();
+        initRadarBlips();
+    };
+
+    // --- TERMINAL LOGGER ---
+    function logConsole(msg) {
+        const p = document.createElement('p'); p.innerText = msg;
+        termLog.appendChild(p); termLog.scrollTop = termLog.scrollHeight;
+    }
+
+    // --- UI HELPERS ---
+    function toggleAcc(element) { element.parentElement.classList.toggle('open'); }
+    function showToast(message) {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = 'toast'; toast.innerText = message;
+        container.appendChild(toast);
+        setTimeout(() => { toast.style.opacity='0'; setTimeout(()=>toast.remove(),300); }, 2000);
+    }
+    function updateSlider(inputId, displayId, suffix) {
+        const val = document.getElementById(inputId).value;
+        document.getElementById(displayId).innerText = val + suffix;
+        localStorage.setItem('nentox_' + inputId, val);
+    }
+    function loadSlider(inputId, displayId, suffix) {
+        const saved = localStorage.getItem('nentox_' + inputId);
+        if(saved) { document.getElementById(inputId).value = saved; document.getElementById(displayId).innerText = saved + suffix; }
+    }
+
+    // --- ADVANCED FEATURES LOGIC ---
+    function toggleCrosshair(el, log=true) {
+        document.getElementById('crosshair-overlay').style.display = el.checked ? 'block' : 'none';
+        if(log) logConsole(el.checked ? "[+] Custom Overlay Active" : "[-] Overlay Removed");
+    }
+    function toggleWatermark(el) { document.getElementById('watermark').style.display = el.checked ? 'block' : 'none'; }
+    function toggleRadar(el, log=true) {
+        document.getElementById('radar-widget').style.display = el.checked ? 'block' : 'none';
+        if(log) { showToast(el.checked ? "[>] Radar HUD Active" : "[>] Radar HUD Hidden"); logConsole(el.checked ? "[+] Minimap Hooks Injected" : "[-] Minimap Hooks Removed"); }
+    }
+
+    function applyCustomRGB(hex, notify=true) {
+        document.getElementById('rgb-display').innerText = hex.toUpperCase();
+        let r = parseInt(hex.slice(1, 3), 16), g = parseInt(hex.slice(3, 5), 16), b = parseInt(hex.slice(5, 7), 16);
+        let glow = `rgba(${r}, ${g}, ${b}, 0.7)`;
+        document.documentElement.style.setProperty('--primary', hex);
+        document.documentElement.style.setProperty('--primary-glow', glow);
+        document.getElementById('ch-shape').style.color = hex;
+        localStorage.setItem('nentox_color', hex); localStorage.setItem('nentox_glow', glow);
+        if(notify) { showToast(`[>] Theme Updated`); logConsole(`[+] Master Color Injected: ${hex.toUpperCase()}`); }
+    }
+
+    function initRadarBlips() {
+        const radar = document.getElementById('radar-widget');
+        setInterval(() => {
+            if(document.getElementById('cb_radarOn').checked) {
+                const blip = document.createElement('div'); blip.className = 'radar-blip';
+                blip.style.top = Math.floor(Math.random() * 80 + 10) + '%'; blip.style.left = Math.floor(Math.random() * 80 + 10) + '%';
+                radar.appendChild(blip); setTimeout(() => blip.remove(), 2000);
+            }
+        }, 1500);
+    }
+
+    function startFPSCounter() {
+        const wmFps = document.getElementById('wm-fps');
+        let lastTime = performance.now(), frames = 0;
+        function loop() {
+            const now = performance.now(); frames++;
+            if (now >= lastTime + 1000) { wmFps.innerText = frames; frames = 0; lastTime = now; }
+            requestAnimationFrame(loop);
+        }
+        requestAnimationFrame(loop);
+    }
+
+    // --- UNIVERSAL DRAG LOGIC (Mouse + Touch) ---
+    setupUniversalDraggable(document.getElementById('radar-widget'), document.getElementById('radar-widget'));
+    setupUniversalDraggable(panel, panelHeader);
+    
+    // Custom logic for the main button so it opens on click but moves on drag
+    let isBtnDragging = false, btnMoved = false, btnStartX, btnStartY, btnInitialLeft, btnInitialTop;
+    
+    function startBtnDrag(e) {
+        isBtnDragging = true; btnMoved = false;
+        btnStartX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        btnStartY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+        const rect = dragBtn.getBoundingClientRect();
+        btnInitialLeft = rect.left; btnInitialTop = rect.top;
+        dragBtn.style.transition = 'none';
+    }
+    
+    function moveBtnDrag(e) {
+        if (!isBtnDragging) return;
+        const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+        const currentY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+        const deltaX = currentX - btnStartX, deltaY = currentY - btnStartY;
+        
+        if (Math.abs(deltaX) > 5 || Math.abs(deltaY) > 5) btnMoved = true;
+        
+        if (btnMoved) {
+            e.preventDefault();
+            dragBtn.style.left = `${Math.max(0, Math.min(btnInitialLeft + deltaX, window.innerWidth - 55))}px`;
+            dragBtn.style.top = `${Math.max(0, Math.min(btnInitialTop + deltaY, window.innerHeight - 55))}px`;
+        }
+    }
+    
+    function endBtnDrag() {
+        if (!isBtnDragging) return;
+        isBtnDragging = false;
+        dragBtn.style.transition = 'transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
+        if (!btnMoved) { openPanel(); playUIBeep(); }
+    }
+    
+    dragBtn.addEventListener('mousedown', startBtnDrag);
+    dragBtn.addEventListener('touchstart', startBtnDrag, {passive: false});
+    document.addEventListener('mousemove', moveBtnDrag);
+    document.addEventListener('touchmove', moveBtnDrag, {passive: false});
+    document.addEventListener('mouseup', endBtnDrag);
+    document.addEventListener('touchend', endBtnDrag);
+
+    // Generic Draggable Function
+    function setupUniversalDraggable(element, handle) {
+        let isDragging = false, startX, startY, initialLeft, initialTop;
+        
+        function startDrag(e) {
+            if (e.target.closest('.close-btn')) return;
+            isDragging = true;
+            startX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            startY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+            initialLeft = parseInt(element.style.left || element.offsetLeft);
+            initialTop = parseInt(element.style.top || element.offsetTop);
+            element.style.transition = 'none';
+        }
+        
+        function moveDrag(e) {
+            if (!isDragging) return;
+            e.preventDefault();
+            const currentX = e.type.includes('mouse') ? e.clientX : e.touches[0].clientX;
+            const currentY = e.type.includes('mouse') ? e.clientY : e.touches[0].clientY;
+            element.style.left = `${initialLeft + (currentX - startX)}px`;
+            element.style.top = `${initialTop + (currentY - startY)}px`;
+        }
+        
+        function endDrag() {
+            if (isDragging && element === panel) element.style.transition = 'all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1)';
+            isDragging = false;
+        }
+
+        handle.addEventListener('mousedown', startDrag);
+        handle.addEventListener('touchstart', startDrag, {passive: false});
+        document.addEventListener('mousemove', moveDrag);
+        document.addEventListener('touchmove', moveDrag, {passive: false});
+        document.addEventListener('mouseup', endDrag);
+        document.addEventListener('touchend', endDrag);
+    }
+
+    // --- UI CONTROLS ---
+    function openPanel() { panel.classList.add("active"); dragBtn.style.opacity="0"; dragBtn.style.pointerEvents="none"; }
+    function closePanel() { panel.classList.remove("active"); dragBtn.style.opacity="1"; dragBtn.style.pointerEvents="auto"; }
+    function openTab(id, el) {
+        document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+        document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+        document.getElementById(id).classList.add('active'); el.classList.add('active');
+    }
+
+    // --- PC KEYBIND (INSERT KEY) ---
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Insert') {
+            playUIBeep();
+            panel.classList.contains('active') ? closePanel() : openPanel();
+        }
+    });
+</script>
 </body>
 </html>
