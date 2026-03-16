@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>NENTOX MENU - GOD TIER</title>
+<title>NENTOX FF CONFIG - V4</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 
 <style>
@@ -69,8 +69,6 @@ svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; stroke-l
 .ch-cross { width: 20px; height: 20px; position: relative; }
 .ch-cross::before, .ch-cross::after { content: ''; position: absolute; background: currentColor; top: 50%; left: 50%; transform: translate(-50%, -50%); box-shadow: 0 0 5px rgba(0,0,0,0.5); }
 .ch-cross::before { width: 100%; height: 2px; } .ch-cross::after { width: 2px; height: 100%; }
-.ch-dot { width: 6px; height: 6px; background: currentColor; border-radius: 50%; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
-.ch-circle { width: 24px; height: 24px; border: 2px solid currentColor; border-radius: 50%; box-shadow: 0 0 5px rgba(0,0,0,0.5); }
 
 /* MENU BUTTON */
 .menu-btn {
@@ -106,7 +104,7 @@ svg { width: 18px; height: 18px; stroke: currentColor; stroke-width: 2; stroke-l
 
 .tabs { display: flex; padding: 18px 22px 0; gap: 10px; overflow-x: auto; scrollbar-width: none; }
 .tabs::-webkit-scrollbar { display: none; }
-.tab-btn { flex: 1; min-width: 75px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 10px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; font-size: 11px; font-weight: 600; color: var(--text-muted); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; }
+.tab-btn { flex: 1; min-width: 75px; display: flex; align-items: center; justify-content: center; gap: 8px; padding: 12px 10px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 12px; font-size: 11px; font-weight: 600; color: var(--text-muted); transition: 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); cursor: pointer; text-transform: uppercase; }
 .tab-btn svg { opacity: 0.7; }
 .tab-btn.active { background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 100%); border-color: var(--primary); color: var(--primary); box-shadow: inset 0 0 20px rgba(0,0,0,0.5), 0 5px 15px rgba(0,0,0,0.2); transform: translateY(-2px); }
 .tab-btn.active svg { opacity: 1; filter: drop-shadow(0 0 5px var(--primary-glow)); }
@@ -153,10 +151,6 @@ input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; height: 18px
 input[type=range]::-webkit-slider-thumb:active { transform: scale(1.2); cursor: grabbing; }
 input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: rgba(255,255,255,0.08); border-radius: 4px; border: 1px solid rgba(255,255,255,0.05); }
 
-.profiles { display: flex; gap: 10px; margin-bottom: 15px; }
-.prof-btn { flex: 1; padding: 10px 0; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 8px; color: var(--text-main); font-size: 11px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: 0.3s; }
-.prof-btn:active { transform: scale(0.95); background: var(--primary); color: white; border-color: var(--primary); }
-
 .color-picker-wrap { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; background: rgba(0,0,0,0.2); padding: 10px 15px; border-radius: 10px; border: 1px solid var(--card-border); }
 input[type=color] { -webkit-appearance: none; width: 35px; height: 35px; border: none; border-radius: 8px; background: none; cursor: pointer; padding: 0; box-shadow: 0 0 10px rgba(0,0,0,0.5); }
 input[type=color]::-webkit-color-swatch-wrapper { padding: 0; }
@@ -166,7 +160,6 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
 
 .action-btn { width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--card-border); color: var(--text-main); border-radius: 10px; font-weight: 800; font-family: 'Orbitron', sans-serif; cursor: pointer; margin-top: 10px; transition: 0.3s; text-transform: uppercase; letter-spacing: 2px; }
 .action-btn:active { background: rgba(255, 255, 255, 0.1); transform: scale(0.95); }
-
 .panic-btn { background: rgba(255, 26, 26, 0.1); border: 1px solid #ff1a1a; color: #ff1a1a; margin-top: 15px; }
 .panic-btn:active { background: #ff1a1a; color: white; box-shadow: 0 0 15px rgba(255, 26, 26, 0.5); }
 
@@ -181,11 +174,11 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
 </head>
 <body>
 
-<div id="watermark">NENTOX VIP | <span>Super Star</span> | FPS: <span id="wm-fps">60</span></div>
+<div id="watermark">NENTOX VIP | <span>Zephyr</span> | FPS: <span id="wm-fps">60</span></div>
 
 <div id="loader">
     <div class="spinner"></div>
-    <div class="loader-text">INJECTING ENGINE...</div>
+    <div class="loader-text">INJECTING NENTOX CORE...</div>
 </div>
 
 <div id="crosshair-overlay">
@@ -210,7 +203,7 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
         <div class="brand">
             <img src="https://cdn.discordapp.com/attachments/1459421985800065170/1482684204834619453/LOGO.png.png?ex=69b7d8c5&is=69b68745&hm=9cd85c20df6eebb5d865d689d1d86e4f45caa75c89377ce720fc488a03b43a39&" alt="Logo">
             <div class="title">
-                NENTOX <span style="font-size:10px; color:var(--primary); font-weight:600; letter-spacing: 2px;">GOD TIER</span>
+                NENTOX <span style="font-size:10px; color:var(--primary); font-weight:600; letter-spacing: 2px;">V4.0.0</span>
             </div>
         </div>
         <div class="close-btn" onclick="closePanel(); playUIBeep();">
@@ -220,10 +213,10 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
 
     <div class="tabs">
         <div class="tab-btn active" onclick="openTab('aim', this); playUIBeep();">
-            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg> AIM
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="22" y1="12" x2="18" y2="12"></line><line x1="6" y1="12" x2="2" y2="12"></line><line x1="12" y1="6" x2="12" y2="2"></line><line x1="12" y1="22" x2="12" y2="18"></line></svg> COMBAT
         </div>
         <div class="tab-btn" onclick="openTab('visuals', this); playUIBeep();">
-            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> VIS
+            <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg> ESP
         </div>
         <div class="tab-btn" onclick="openTab('radar', this); playUIBeep();">
             <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 10 10"></path><circle cx="12" cy="12" r="2"></circle></svg> RADAR
@@ -236,18 +229,18 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
     <div class="content">
         <div id="aim" class="tab-content active">
             <div class="accordion open">
-                <div class="acc-header" onclick="toggleAcc(this); playUIBeep();">Combat Assist <svg class="acc-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+                <div class="acc-header" onclick="toggleAcc(this); playUIBeep();">Free Fire Combat <svg class="acc-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
                 <div class="acc-body">
                     <div class="option">
-                        <span class="opt-label">Aim Assist <div class="tooltip-wrap">?<span class="tooltip-text">Magnetizes crosshair to closest enemy</span></div></span>
-                        <label class="switch"><input type="checkbox" id="cb_aimAssist" data-name="Aim Assist"><span class="slider"></span></label>
+                        <span class="opt-label">Auto Aimbot <div class="tooltip-wrap">?<span class="tooltip-text">Locks crosshair instantly to enemies</span></div></span>
+                        <label class="switch"><input type="checkbox" id="cb_autoAim" data-name="Auto Aimbot"><span class="slider"></span></label>
                     </div>
                     <div class="option">
-                        <span class="opt-label">Head Priority <div class="tooltip-wrap">?<span class="tooltip-text">Forces aimbot lock to head bone hitboxes</span></div></span>
-                        <label class="switch"><input type="checkbox" id="cb_headAim" data-name="Head Priority"><span class="slider"></span></label>
+                        <span class="opt-label">Auto Headshot <div class="tooltip-wrap">?<span class="tooltip-text">Forces 100% headshot accuracy</span></div></span>
+                        <label class="switch"><input type="checkbox" id="cb_autoHead" data-name="Auto Headshot"><span class="slider"></span></label>
                     </div>
                     <div class="slider-container">
-                        <div class="slider-header"><span>FOV Radius</span><span class="val-display" id="fov-val">90°</span></div>
+                        <div class="slider-header"><span>Aimbot FOV</span><span class="val-display" id="fov-val">90°</span></div>
                         <input type="range" id="range_fov" min="10" max="360" value="90" oninput="updateSlider('range_fov', 'fov-val', '°')">
                     </div>
                 </div>
@@ -256,39 +249,33 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
 
         <div id="visuals" class="tab-content">
             <div class="accordion open">
-                <div class="acc-header" onclick="toggleAcc(this); playUIBeep();">Screen Overlays <svg class="acc-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+                <div class="acc-header" onclick="toggleAcc(this); playUIBeep();">Free Fire ESP <svg class="acc-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
                 <div class="acc-body">
                     <div class="option">
-                        <span class="opt-label">Player ESP <div class="tooltip-wrap">?<span class="tooltip-text">Draws bounding boxes around entities</span></div></span>
-                        <label class="switch"><input type="checkbox" id="cb_espBox" data-name="Player ESP"><span class="slider"></span></label>
-                    </div>
-                    <div class="slider-container">
-                        <div class="slider-header"><span>Max Distance</span><span class="val-display" id="dist-val">400m</span></div>
-                        <input type="range" id="range_dist" min="50" max="1000" step="50" value="400" oninput="updateSlider('range_dist', 'dist-val', 'm')">
+                        <span class="opt-label">Antenna ESP <div class="tooltip-wrap">?<span class="tooltip-text">Draws high line straight up from players</span></div></span>
+                        <label class="switch"><input type="checkbox" id="cb_espAntenna" data-name="Antenna ESP"><span class="slider"></span></label>
                     </div>
                     <div class="option">
-                        <span class="opt-label">Show Watermark <div class="tooltip-wrap">?<span class="tooltip-text">Displays top screen info overlay</span></div></span>
-                        <label class="switch"><input type="checkbox" id="cb_watermark" onchange="toggleWatermark(this)" checked><span class="slider"></span></label>
+                        <span class="opt-label">X-Ray Wallhack <div class="tooltip-wrap">?<span class="tooltip-text">See players through walls (Chams)</span></div></span>
+                        <label class="switch"><input type="checkbox" id="cb_espXray" data-name="X-Ray Wallhack"><span class="slider"></span></label>
+                    </div>
+                    <div class="option">
+                        <span class="opt-label">Gloo Wall / Loot ESP <div class="tooltip-wrap">?<span class="tooltip-text">Highlights high-tier loot and gloo walls</span></div></span>
+                        <label class="switch"><input type="checkbox" id="cb_espLoot" data-name="Loot ESP"><span class="slider"></span></label>
+                    </div>
+                    <div class="slider-container">
+                        <div class="slider-header"><span>Max ESP Distance</span><span class="val-display" id="dist-val">400m</span></div>
+                        <input type="range" id="range_dist" min="50" max="1000" step="50" value="400" oninput="updateSlider('range_dist', 'dist-val', 'm')">
                     </div>
                 </div>
             </div>
-
+            
             <div class="accordion">
-                <div class="acc-header" onclick="toggleAcc(this); playUIBeep();">Custom Crosshair <svg class="acc-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
+                <div class="acc-header" onclick="toggleAcc(this); playUIBeep();">Overlays <svg class="acc-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
                 <div class="acc-body">
                     <div class="option">
-                        <span class="opt-label">Enable Crosshair <div class="tooltip-wrap">?<span class="tooltip-text">Renders static center crosshair</span></div></span>
-                        <label class="switch"><input type="checkbox" id="cb_crosshairOn" onchange="toggleCrosshair(this)"><span class="slider"></span></label>
-                    </div>
-                    <div style="font-size:12px; margin: 15px 0 5px; color:var(--text-muted);">Shape Select</div>
-                    <div class="profiles">
-                        <button class="prof-btn" onclick="setCrosshairShape('ch-cross')">Cross</button>
-                        <button class="prof-btn" onclick="setCrosshairShape('ch-dot')">Dot</button>
-                        <button class="prof-btn" onclick="setCrosshairShape('ch-circle')">Circle</button>
-                    </div>
-                    <div class="slider-container">
-                        <div class="slider-header"><span>Scale Size</span><span class="val-display" id="ch-size-val">1.0x</span></div>
-                        <input type="range" id="range_chSize" min="0.5" max="2.5" step="0.1" value="1" oninput="updateCrosshairSize()">
+                        <span class="opt-label">Show Watermark <div class="tooltip-wrap">?<span class="tooltip-text">Displays top screen info overlay</span></div></span>
+                        <label class="switch"><input type="checkbox" id="cb_watermark" onchange="toggleWatermark(this)" checked><span class="slider"></span></label>
                     </div>
                 </div>
             </div>
@@ -322,7 +309,7 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
                 </div>
             </div>
             
-            <div class="accordion">
+            <div class="accordion open">
                 <div class="acc-header" onclick="toggleAcc(this); playUIBeep();">System Controls <svg class="acc-icon" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg></div>
                 <div class="acc-body">
                     <button class="action-btn" onclick="exportConfig()">EXPORT CONFIG (.JSON)</button>
@@ -371,12 +358,11 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
                 document.getElementById('loader').style.display = 'none';
                 dragBtn.style.display = 'flex';
                 
-                logConsole("[+] Booting VertexCreative Systems...");
-                setTimeout(() => logConsole("[+] Bypassing Security via WebLooM Protocol..."), 400);
-                setTimeout(() => logConsole("[+] NyX Dev Memory Injector Active."), 800);
+                logConsole("[+] Booting nentox core...");
+                setTimeout(() => logConsole("[+] Initializing Free Fire Hooks..."), 400);
+                setTimeout(() => logConsole("[+] Bypassing Anti-Cheat..."), 800);
                 setTimeout(() => logConsole("[+] Welcome back, Zephyr."), 1200);
                 
-                // Fire the JSON Loader after boot
                 setTimeout(() => loadConfigFromJSON(), 1600);
 
             }, 500);
@@ -422,6 +408,7 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
             })
             .then(cfg => {
                 logConsole(`[+] Loading Config: ${cfg.metadata.configName}`);
+                logConsole(`[+] Author: ${cfg.metadata.author} | V: ${cfg.metadata.version}`);
                 
                 if (cfg.ui_settings) {
                     if (cfg.ui_settings.themeHex) {
@@ -429,20 +416,16 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
                         document.getElementById('native-color').value = cfg.ui_settings.themeHex;
                     }
                     setToggle('cb_watermark', cfg.ui_settings.showWatermark);
-                    if (cfg.ui_settings.customCrosshair) {
-                        setToggle('cb_crosshairOn', cfg.ui_settings.customCrosshair.enabled);
-                        setCrosshairShape(cfg.ui_settings.customCrosshair.shape, false);
-                        setSlider('range_chSize', cfg.ui_settings.customCrosshair.scale, 'ch-size-val', 'x');
-                        updateCrosshairSize();
-                    }
                 }
                 if (cfg.combat) {
-                    setToggle('cb_aimAssist', cfg.combat.aimbot.enabled);
-                    setToggle('cb_headAim', cfg.combat.aimbot.headPriority);
+                    setToggle('cb_autoAim', cfg.combat.aimbot.autoAim);
+                    setToggle('cb_autoHead', cfg.combat.aimbot.autoHeadshot);
                     setSlider('range_fov', cfg.combat.aimbot.fovRadius, 'fov-val', '°');
                 }
                 if (cfg.visuals) {
-                    setToggle('cb_espBox', cfg.visuals.esp.playerBox);
+                    setToggle('cb_espAntenna', cfg.visuals.esp.antenna);
+                    setToggle('cb_espXray', cfg.visuals.esp.xray);
+                    setToggle('cb_espLoot', cfg.visuals.esp.glooWallLoot);
                     setSlider('range_dist', cfg.visuals.esp.maxRenderDistance, 'dist-val', 'm');
                     setToggle('cb_radarOn', cfg.visuals.radar.enabled);
                 }
@@ -460,48 +443,40 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
             if (cb.id === 'cb_watermark') return; 
             if (localStorage.getItem('nentox_' + cb.id) === 'true') {
                 cb.checked = true;
-                if(cb.id === 'cb_crosshairOn') toggleCrosshair(cb, false);
                 if(cb.id === 'cb_radarOn') toggleRadar(cb, false);
             }
         });
         loadSlider('range_fov', 'fov-val', '°');
         loadSlider('range_dist', 'dist-val', 'm');
-        if(localStorage.getItem('nentox_chShape')) setCrosshairShape(localStorage.getItem('nentox_chShape'), false);
-        if(localStorage.getItem('nentox_range_chSize')) {
-            document.getElementById('range_chSize').value = localStorage.getItem('nentox_range_chSize');
-            updateCrosshairSize();
-        }
     }
 
+    // --- JSON EXPORT SYSTEM ---
     function exportConfig() {
         playUIBeep();
         const config = {
             metadata: {
-                configName: "Zephyr Custom Sync",
+                configName: "NEMTOX CONFIGURATION",
                 author: "Zephyr",
-                version: "3.0.0",
+                version: "4.0.0",
                 buildYear: 2026,
-                engine: "VertexCreative Core"
+                engine: "nentox core"
             },
             ui_settings: {
                 themeHex: document.getElementById('native-color').value,
-                showWatermark: document.getElementById('cb_watermark').checked,
-                customCrosshair: {
-                    enabled: document.getElementById('cb_crosshairOn').checked,
-                    shape: localStorage.getItem('nentox_chShape') || 'ch-cross',
-                    scale: document.getElementById('range_chSize').value
-                }
+                showWatermark: document.getElementById('cb_watermark').checked
             },
             combat: {
                 aimbot: {
-                    enabled: document.getElementById('cb_aimAssist').checked,
-                    headPriority: document.getElementById('cb_headAim').checked,
+                    autoAim: document.getElementById('cb_autoAim').checked,
+                    autoHeadshot: document.getElementById('cb_autoHead').checked,
                     fovRadius: document.getElementById('range_fov').value
                 }
             },
             visuals: {
                 esp: {
-                    playerBox: document.getElementById('cb_espBox').checked,
+                    antenna: document.getElementById('cb_espAntenna').checked,
+                    xray: document.getElementById('cb_espXray').checked,
+                    glooWallLoot: document.getElementById('cb_espLoot').checked,
                     maxRenderDistance: document.getElementById('range_dist').value
                 },
                 radar: {
@@ -511,10 +486,10 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
         };
         const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(config, null, 2));
         const dlNode = document.createElement('a');
-        dlNode.setAttribute("href", dataStr); dlNode.setAttribute("download", "zephyr_config.json");
+        dlNode.setAttribute("href", dataStr); dlNode.setAttribute("download", "nemtox_ff_config.json");
         document.body.appendChild(dlNode); dlNode.click(); dlNode.remove();
         showToast("[>] Config Exported");
-        logConsole("[+] zephyr_config.json generated.");
+        logConsole("[+] nemtox_ff_config.json generated.");
     }
 
     // --- UI HELPERS ---
@@ -530,9 +505,6 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
     function loadSlider(inputId, displayId, suffix) { const saved = localStorage.getItem('nentox_' + inputId); if(saved) { document.getElementById(inputId).value = saved; document.getElementById(displayId).innerText = saved + suffix; } }
 
     // --- ADVANCED FEATURES LOGIC ---
-    function toggleCrosshair(el, log=true) { document.getElementById('crosshair-overlay').style.display = el.checked ? 'block' : 'none'; if(log) logConsole(el.checked ? "[+] Custom Overlay Active" : "[-] Overlay Removed"); }
-    function setCrosshairShape(shapeClass, log=true) { document.getElementById('ch-shape').className = shapeClass; localStorage.setItem('nentox_chShape', shapeClass); if(log) { showToast("[>] Crosshair Updated"); logConsole(`[>] Overlay Shape -> ${shapeClass.replace('ch-','')}`); } }
-    function updateCrosshairSize() { const val = document.getElementById('range_chSize').value; document.getElementById('ch-size-val').innerText = val + 'x'; document.getElementById('ch-shape').style.transform = `scale(${val})`; localStorage.setItem('nentox_range_chSize', val); }
     function toggleWatermark(el) { document.getElementById('watermark').style.display = el.checked ? 'block' : 'none'; }
     function toggleRadar(el, log=true) { document.getElementById('radar-widget').style.display = el.checked ? 'block' : 'none'; if(log) { showToast(el.checked ? "[>] Radar HUD Active" : "[>] Radar HUD Hidden"); logConsole(el.checked ? "[+] Minimap Hooks Injected" : "[-] Minimap Hooks Removed"); } }
 
@@ -542,7 +514,6 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
         let glow = `rgba(${r}, ${g}, ${b}, 0.7)`;
         document.documentElement.style.setProperty('--primary', hex);
         document.documentElement.style.setProperty('--primary-glow', glow);
-        document.getElementById('ch-shape').style.color = hex;
         localStorage.setItem('nentox_color', hex); localStorage.setItem('nentox_glow', glow);
         if(notify) { showToast(`[>] Theme Updated`); logConsole(`[+] Master Color Injected: ${hex.toUpperCase()}`); }
     }
@@ -550,7 +521,7 @@ input[type=color]::-webkit-color-swatch { border: 2px solid rgba(255,255,255,0.2
     function panicMode() {
         document.querySelectorAll('input[type="checkbox"]').forEach(cb => { cb.checked = false; localStorage.setItem('nentox_' + cb.id, false); });
         showToast("PANIC MODE: All cheats disabled"); logConsole("[!] SYSTEM PANIC INITIATED");
-        if (window.NentoxNative) { window.NentoxNative.triggerPanic(); } // ANDROID BRIDGE
+        if (window.NentoxNative) { window.NentoxNative.triggerPanic(); } 
     }
 
     function initRadarBlips() {
