@@ -1,0 +1,40 @@
+{
+  "metadata": {
+    "configName": "NENTOX CONFIGURATION",
+    "author": "Zephyr",
+    "version": "3.0.0",
+    "buildYear": 2026,
+    "engine": "NENTOX CORE"
+  },
+  "ui_settings": {
+    "themeHex": "#00ff41",
+    "showWatermark": true,
+    "customCrosshair": {
+      "enabled": true,
+      "shape": "ch-cross",
+      "scale": 1.2
+    }
+  },
+  "combat": {
+    "aimbot": {
+      "enabled": true,
+      "headPriority": false,
+      "fovRadius": 60
+    },
+    "exploits": {
+      "noRecoil": true,
+      "fastReload": false
+    }
+  },
+  "visuals": {
+    "esp": {
+      "playerBox": true,
+      "showNames": true,
+      "maxRenderDistance": 400
+    },
+    "radar": {
+      "enabled": true,
+      "syncRealTime": true
+    }
+  }
+}
